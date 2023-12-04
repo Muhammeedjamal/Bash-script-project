@@ -1,0 +1,109 @@
+#!/bin/bash
+
+# GUI header
+echo "User control by gemey "
+echo "-----------------------lets go "
+
+# Main menu
+echo "1. Add user"
+echo "2. Edit user"
+echo "3. Remove user"
+echo "4. Add group"
+echo "5. Remove group"
+echo "6. Add user to group"
+echo "7. List all users"
+echo "8. List all groups"
+echo "9. View user info"
+echo "10. Enable user"
+echo "11. Disable user"
+echo "12. Remove user directory"
+echo "0. Exit"
+# Get user selection
+read -p "Enter your selection: " selection
+
+# Switch statement to handle user selection
+case "$selection" in
+    1)
+        # Add user
+        echo "Adding user..."
+        read -p "Enter username: " username
+        read -p "Enter password: " password
+        useradd -m -p "$password" "$username"
+        ;;
+    2)
+        # Edit user
+        echo "Editing user..."
+        read -p "Enter username: " username
+        read -p "Enter new password (leave blank to keep current password): " p>
+        usermod -p "$password" "$username"
+        ;;
+   3)
+        # Remove user
+        echo "Removing user..."
+        read -p "Enter username: " username
+        userdel "$username"
+        ;;
+    4)
+        # Add group
+        echo "Adding group..."
+        read -p "Enter group name: " groupname
+        groupadd "$groupname"
+        ;;
+    5)
+        # Remove group
+        echo "Removing group..."
+        read -p "Enter group name: " groupname
+        groupdel "$groupname"
+        ;;
+   6)
+        # Add user to group
+        echo "Adding user to group..."
+        read -p "Enter username: " username
+        read -p "Enter group name: " groupname
+        usermod -aG "$groupname" "$username"
+        ;;
+    7)
+        # List all users
+        echo "Listing all users..."
+        cat /etc/passwd
+        ;;
+    8)
+        # List all groups
+        echo "Listing all groups..."
+        cat /etc/group
+        ;;
+     9)
+        # View user info
+        echo "Viewing user info..."
+        read -p "Enter username: " username
+        cat /etc/passwd | grep "$username"
+        ;;
+    10)
+        # Enable user
+        echo "Enabling user..."
+        read -p "Enter username: " username
+        usermod -e "$username"
+        ;;
+    11)
+        # Disable user
+        echo "Disabling user..."
+        read -p "Enter username: " username
+        usermod -d "$username"
+        ;;
+    12)
+        # Remove user directory
+        echo "Removing user directory..."
+        read -p "Enter username: " username
+        rm -rf /home/$username
+        ;;
+    0)
+        # Exit script
+        echo "Exiting script..."
+        exit 0
+        ;;
+    *)
+        # Invalid selection
+        echo "Invalid selection."
+        ;;
+esac
+
